@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist", //? Carpeta donde se guardaran los archivos compilados
+    "rootDir": "./src", //? Carpeta en donde se encuentran los archivos que seran compilados
+    "lib": ["ESNext"], //? Librerias que se utilizaran para la compilacion
+    /* "target": "ESNext",
+    "moduleResolution": "nodenext",
+    "module": "NodeNext", */
+    "strict": false,  //? Activar o no la verificacion de tipos
+    "sourceMap": true,  //? Generar un mapa de los archivos compilados para depurar los errores
+    "esModuleInterop": true,  //? Permite la importacion de modulos con extension .mjs
+    "declaration": true, //? Generar un archivo .d.ts con la definicion de los tipos
+    /* "experimentalDecorators": true,
+    "emitDecoratorMetadata": true */
+  },
+  "include": ["src/**/*.ts"]
+}
