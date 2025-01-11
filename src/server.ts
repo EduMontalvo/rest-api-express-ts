@@ -1,6 +1,7 @@
 import express from 'express'
 import router from './router'
 import db from './config/db'
+import colors from 'colors'
 
 const server = express()
 
@@ -8,15 +9,16 @@ async function connectDB () {
     try{
         await db.authenticate()
         db.sync()
-        console.log('Conexion exitosa a la DB');
+        console.log(colors.green.bold(('CONEXION EXITOSA A LA DB')));
     }catch(error){
-        console.log(error);
-        console.log('Hubo un problema al conectarse a la DB');
+        console.log(colors.red.bold('HUBO UN PROBLEMA AL CONECTARSE A LA DB'));
     }
 }
 
 connectDB()
 
+server.use(express.json())
 server.use('/api/products', router)
+
 
 export default server
