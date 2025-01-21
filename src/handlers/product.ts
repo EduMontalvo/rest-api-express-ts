@@ -1,29 +1,21 @@
 import { Request, Response } from 'express'
 import Product from '../models/Products.model'
 export const createProduct = async (req: Request, res: Response) => {
-    try {
-        const products = await Product.create(req.body)
-        res.json({ data: products })
-    } catch (error) {
-        console.log(error)
-    }
+    const products = await Product.create(req.body)
+    res.status(201).json({ data: products })
 }
 
 export const getProducts = async (req: Request, res: Response) => {
-    try {
-        const products = await Product.findAll()
-        res.json({ data: products })
-    } catch (error) {
-        console.log(error);
-    }
+    const products = await Product.findAll()
+    res.json({ data: products })
 }
 export const getProductById = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params
-        const products = await Product.findByPk(id)
+    const { id } = req.params
+    const products = await Product.findByPk(id)
+    if (products) {
         res.json({ data: products })
-    } catch (error) {
-        console.log(error);
+    } else {
+        res.status(404).json({ error: 'Producto no encontrado' })
     }
 }
 export const updateProducts = async (req: Request, res: Response) => {
@@ -33,31 +25,30 @@ export const updateProducts = async (req: Request, res: Response) => {
     if (product) {
         await product.update(req.body)
         await product.save()
+        res.json({ data: product })
     } else {
-        res.status(400).json({ error: 'Producto no encontrado' })
+        res.status(404).json({ error: 'Producto no encontrado' })
     }
-    res.json({ data: product })
 }
 export const updateAvailability = async (req: Request, res: Response) => {
     const { id } = req.params
     const product = await Product.findByPk(id)
-
     if (product) {
         product.availability = !product.dataValues.availability
         await product.save()
+        res.json({ data: product })
     } else {
         res.status(400).json({ error: 'Producto no encontrado' })
     }
-    res.json({ data: product })
 }
 
-export const deleteProduct = async (req:Request, res:Response) => {
-    const {id} = req.params
+export const deleteProduct = async (req: Request, res: Response) => {
+    const { id } = req.params
     const product = await Product.findByPk(id)
-    if(product){
+    if (product) {
         await product.destroy()
-    }else{
-        res.status(400).json({error:'Producto no encontrado'})
+        res.json({ data: 'Producto eliminado' })
+    } else {
+        res.status(400).json({ error: 'Producto no encontrado' })
     }
-    res.json({data : 'Producto eliminado'})
 }
